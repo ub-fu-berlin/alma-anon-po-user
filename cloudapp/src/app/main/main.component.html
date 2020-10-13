@@ -1,0 +1,46 @@
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>API Result</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <textarea #apiResultArea [value]="apiResult | json"></textarea>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="update(apiResultArea.value)" [disabled]="!hasApiResult || loading">Update</button>
+    </mat-card-actions>
+  </mat-card>
+</section>
+
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Ordered Item {{ number }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ul>
+        <li *ngFor="let user of interestedUsers">
+          {{ user }}
+        </li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="anonUser()">Anonymize</button>
+      <button mat-raised-button
+              matTooltip="Tooltip ..."
+              matTooltipPosition="before">
+        Tooltip
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>
+
+<!--
+<input [matDatepicker]="basicDatepicker">
+<mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+<mat-datepicker #basicDatepicker></mat-datepicker>
+-->
+
+<mat-card-actions>
+      <button mat-stroked-button (click)="getUser()">Log Interested User</button>
+</mat-card-actions>
