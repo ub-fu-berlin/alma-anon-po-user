@@ -14,7 +14,12 @@ import {
 } from '@exlibris/exl-cloudapp-angular-lib';
 import { Settings } from '../models/settings';
 import { SettingsComponent } from '../settings/settings.component';
+import { Configuration } from '../models/configuration';
+import { ConfigurationComponent } from '../configuration/configuration.component';
 import { CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
+import { CloudAppConfigService } from '@exlibris/exl-cloudapp-angular-lib';
+
+
 
 @Component({
   selector: 'app-main',
@@ -28,9 +33,11 @@ export class MainComponent implements OnInit, OnDestroy {
   private _apiResult: any;
   barcode: any;
   number: any;
-  anonymous: string;
+  anonymousId: string;
+  deleteUser: string;
   interestedUsers: string[];
   settings: Settings;
+  configuration: Configuration;
   hasApiResult: boolean = false;
   loading = false;
   showApi = false;
@@ -38,6 +45,7 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private restService: CloudAppRestService,
     private eventsService: CloudAppEventsService,
     private settingsService: CloudAppSettingsService,
+    private configService: CloudAppConfigService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
@@ -46,16 +54,20 @@ export class MainComponent implements OnInit, OnDestroy {
 
     // page metadata
     this.eventsService.getPageMetadata().subscribe(
-      pageInfo => console.log('entities: link', pageInfo.entities[0].link)
+      //pageInfo => console.log('entities: link', pageInfo.entities[0].link)
     );
 
     // get settings
     this.settingsService.get().subscribe(settings => {
       this.settings = settings as Settings;
-      this.anonymous = this.settings.anonymous;
-      this.showApi = this.settings.showApi;
-      console.log('Anon in settings: ' + this.anonymous);
     });
+
+    // get configuration
+    this.configService.get().subscribe(configuration => {
+      this.configuration = configuration as Configuration;
+    });
+
+
 
     this.eventsService.getInitData().subscribe(
       data => console.log('Page called by', data.user.firstName, data.user.lastName)
@@ -95,15 +107,28 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUser() {
-    console.log('PO: ' + this.apiResult.number);
-    this.number = this.apiResult.number;
-    let users = this.apiResult.interested_user;
-    let iu = [];
-    users.forEach(function(entry) {
-      iu.push(entry.last_name + ', ' + entry.first_name + ' (' + entry.email + ')');
-    });
-    this.interestedUsers = iu;
+  // getUser() {
+  //   console.log('PO: ' + this.apiResult.number);
+  //   this.number = this.apiResult.number;
+  //   let users = this.apiResult.interested_user;
+  //   let iu = [];
+  //   users.forEach(function(entry) {
+  //     iu.push(entry.last_name + ', ' + entry.first_name + ' (' + entry.email + ')');
+  //   });
+  //   this.interestedUsers = iu;
+  // }
+
+  // delete interested users in po-line
+  delUser() {
+    console.log('User anonymize: ');
+    for (let user of this.apiResult.interested_user) {
+      console.log('Users Old: ' + user.primary_id);
+      user.primary_id = this.deleteUser;
+    };
+    for (let user of this.apiResult.interested_user) {
+      console.log('Users New: ' + user.primary_id);
+    };
+    this.save();
   }
 
   // anonymize interested users in po-line
@@ -111,7 +136,7 @@ export class MainComponent implements OnInit, OnDestroy {
     console.log('User anonymize: ');
     for (let user of this.apiResult.interested_user) {
       console.log('Users Old: ' + user.primary_id);
-      user.primary_id = this.anonymous;
+      user.primary_id = this.anonymousId;
     };
     for (let user of this.apiResult.interested_user) {
       console.log('Users New: ' + user.primary_id);

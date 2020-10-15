@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
+import { FormGroupUtil } from '@exlibris/exl-cloudapp-angular-lib';
 import { ToastrService } from 'ngx-toastr';
 import { Settings } from '../models/settings';
 
@@ -16,34 +17,21 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private appService: AppService,
-    private fb: FormBuilder,
     private settingsService: CloudAppSettingsService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
-    //this.appService.setTitle('Settings');
-    this.form = this.fb.group({
-      showValue: this.fb.control(false),
-      showApi: this.fb.control(false),
-      anonymous: this.fb.control('anonymous'),
-      language: this.fb.control('eng')
-    });
-    this.load();
-  }
-
-  load() {
+    this.appService.setTitle('Settings');
     this.settingsService.getAsFormGroup().subscribe( settings => {
-      if (Object.keys(settings.value).length!=0) {
-        this.form = settings;
-      }
+      this.form = Object.keys(settings.value).length==0 ?
+        FormGroupUtil.toFormGroup(new Settings()) :
+        settings;
     });
   }
 
   save() {
     this.saving = true;
-    console.log('FORM save: ');
-    console.log(this.form.value);
     this.settingsService.set(this.form.value).subscribe(
       response => {
         this.toastr.success('Settings successfully saved.');
@@ -53,4 +41,6 @@ export class SettingsComponent implements OnInit {
       ()  => this.saving = false
     );
   }
+
+
 }

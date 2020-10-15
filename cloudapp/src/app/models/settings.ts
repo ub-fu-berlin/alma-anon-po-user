@@ -1,6 +1,4 @@
-export interface Settings {
-      showValue: boolean,
-      showApi: boolean,
-      anonymous: string,
-      language: string
-    }
+export class Settings {
+  showValue: boolean = false;
+  language: string = 'eng';
+}

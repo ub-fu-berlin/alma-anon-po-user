@@ -1,35 +1,41 @@
-<form [formGroup]="form">
-  <section class="settings-section">
-    <mat-checkbox labelPosition="before" formControlName="showValue">Show Settings</mat-checkbox>
-    &nbsp;
-    <!-- mat-checkbox labelPosition="before" formControlName="showApi">Show API Result</mat-checkbox -->
-  </section>
 
-  <br>
-  <section class="settings-section">
-    <label class="example-margin">Language:</label>&nbsp;
-    <mat-radio-group formControlName="language">
-      <mat-radio-button class="settings-control" value="eng">English</mat-radio-button>&nbsp;
-      <mat-radio-button class="settings-control" value="ger">German</mat-radio-button>&nbsp;
-    </mat-radio-group>
-  </section>
-  <br>
-  <section class="settings-section">
-    <label class="example-margin">Anonymous Primary Id:</label>&nbsp;
-    <input matInput formControlName="anonymous"
-           placeholder="...">
-    <br><mat-error *ngIf="form.get('anonymous').value.length < 4">Please input value!</mat-error>
-  </section>
-<br>
-<section>
-  <div class="commands-container">
-    <button mat-raised-button type="button" color="primary" (click)="save()" [disabled]="!form.dirty || form.get('anonymous').value.length < 4">Save</button>
-    <mat-spinner diameter="30" class="spinner" *ngIf="saving"></mat-spinner>
-  </div>
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/']">
+    <mat-icon>arrow_back</mat-icon>
+    {{'Back'}}
+  </button>
+</div>
+
+<section class="settings-section">
+  <h2>Settings</h2>
 </section>
-</form>
 
-<section>
+<div class="loading-shade" *ngIf="saving">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
+
+<div *ngIf="form">
+  <form [formGroup]="form">
+    <section class="settings-section">
+      <mat-checkbox labelPosition="before" formControlName="showValue">Show Settings</mat-checkbox>
+    </section>
+
+    <br>
+    <section class="settings-section">
+      <label class="example-margin">Language:</label>&nbsp;
+      <mat-radio-group formControlName="language">
+        <mat-radio-button class="settings-control" value="eng">English</mat-radio-button>&nbsp;
+        <mat-radio-button class="settings-control" value="ger">German</mat-radio-button>&nbsp;
+      </mat-radio-group>
+    </section>
+    <br>
+  </form>
+
+  <div buttons>
+    <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">Save</button>
+    <br>
+  </div>
+  <br>
   <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
   <pre>{{ form.languge | json }}</pre>
-</section>
+</div>

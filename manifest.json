@@ -1,5 +1,10 @@
 {
    "id": "alma-anon-po-user",
-   "title": "AlmaAnonPolUser",
-   "description": "anonymize interested user in PO-line"
+   "title": "Alma APU",
+   "description": "Anonymize interested users in PO-line",
+   "subtitle": "Anonymize interested users in PO-line",
+   "pages": {
+      "settings": "/#/settings",
+      "config": "/#/configuration"
+   }
 }

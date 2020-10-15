@@ -1,3 +1,4 @@
+<div *ngIf="settings.showApi == true">
 <section>
   <mat-card class="example-card">
     <mat-card-header>
@@ -11,6 +12,7 @@
     </mat-card-actions>
   </mat-card>
 </section>
+</div>
 
 <section>
   <mat-card class="example-card">
@@ -18,6 +20,7 @@
       <mat-card-title>Ordered Item {{ number }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <b>Users:</b>
       <ul>
         <li *ngFor="let user of interestedUsers">
           {{ user }}
@@ -25,12 +28,13 @@
       </ul>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="anonUser()">Anonymize</button>
-      <button mat-raised-button
+      <button mat-raised-button color="blue" (click)="anonUser()">Anonymize User</button>
+      <button mat-raised-button color="primary" (click)="delUser()">Delete User</button>
+      <!--button mat-raised-button
               matTooltip="Tooltip ..."
               matTooltipPosition="before">
         Tooltip
-      </button>
+      </button -->
     </mat-card-actions>
   </mat-card>
 </section>
@@ -40,7 +44,8 @@
 <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
 <mat-datepicker #basicDatepicker></mat-datepicker>
 -->
-
+<!--
 <mat-card-actions>
       <button mat-stroked-button (click)="getUser()">Log Interested User</button>
 </mat-card-actions>
+-->

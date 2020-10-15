@@ -1,0 +1,42 @@
+<div class="cloudapp-actions">
+  <button mat-flat-button color="secondary" [routerLink]="['/']">
+    <mat-icon>arrow_back</mat-icon>
+    {{'Back'}}
+  </button>
+</div>
+
+<section class="configuration-section">
+  <h2>Configuration</h2>
+</section>
+
+<div class="loading-shade" *ngIf="saving">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+</div>
+
+<div *ngIf="form">
+  <form [formGroup]="form">
+    <section class="configuration-section">
+      <mat-checkbox labelPosition="before" formControlName="showApi">Show API Result</mat-checkbox>
+      &nbsp;
+      <!-- mat-checkbox labelPosition="before" formControlName="showValue">Show Configuration</mat-checkbox -->
+    </section>
+
+    <br>
+    <section class="configuration-section">
+      <label class="example-margin">Anonymous Primary Id:</label>&nbsp;
+      <input matInput formControlName="anonymousId" placeholder="...">
+      <br>
+      <mat-error *ngIf="form.get('anonymousId').value.length < 4">Please input valid value!</mat-error>
+    </section>
+  </form>
+
+  <div buttons>
+    <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">Save</button>
+    &nbsp;
+    <!-- button mat-flat-button type="button" color="secondary" (click)="delete()" [disabled]="!(form?.dirty)">Delete</button -->
+    <br>
+  </div>
+  <br>
+  <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
+  <pre>{{ form.languge | json }}</pre>
+</div>
