@@ -27,34 +27,15 @@ export class ConfigurationComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
-
-  // ngOnInit() {
-  //   this.appService.setTitle('Configuration');
-  //   this.form = this.fb.group({
-  //     serviceUrl: this.fb.control('')
-  //   });
-  //   this.load();
-  // }
-
-  //  this.configService.get().subscribe( config => this.config = config );
-
   ngOnInit() {
-    this.appService.setTitle('Settings');
-    this.configService.getAsFormGroup().subscribe( configuration => {
-      this.form = Object.keys(configuration.value).length==0 ?
+    this.appService.setTitle('Configuration');
+    //this.configService.remove().subscribe( () => console.log('config removed') );
+    this.configService.getAsFormGroup().subscribe( config => {
+      this.form = Object.keys(config.value).length==0 ?
         FormGroupUtil.toFormGroup(new Configuration()) :
-        configuration;
+        config;
     });
   }
-
-  // load() {
-  //   this.configService.getAsFormGroup().subscribe( config => {
-  //     if (Object.keys(config.value).length!=0) {
-  //       this.form = config;
-  //       console.log('config loaded');
-  //     }
-  //   });
-  // }
 
   delete() {
     this.configService.remove().subscribe( () => console.log('removed') );
@@ -71,7 +52,6 @@ export class ConfigurationComponent implements OnInit {
       ()  => this.saving = false
     );
   }
-
 }
 
 @Injectable({

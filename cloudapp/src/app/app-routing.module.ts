@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ConfigurationComponent } from './configuration/configuration.component';
+import { ConfigurationComponent, ConfigurationGuard } from './configuration/configuration.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'configuration', component: ConfigurationComponent },
-
+  { path: 'configuration', component: ConfigurationComponent, canActivate: [ConfigurationGuard] },
 ];
 
 @NgModule({

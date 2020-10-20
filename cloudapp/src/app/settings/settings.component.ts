@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    //this.settingsService.remove().subscribe( () => console.log('removed') );
     this.appService.setTitle('Settings');
     this.settingsService.getAsFormGroup().subscribe( settings => {
       this.form = Object.keys(settings.value).length==0 ?
@@ -41,6 +42,4 @@ export class SettingsComponent implements OnInit {
       ()  => this.saving = false
     );
   }
-
-
 }

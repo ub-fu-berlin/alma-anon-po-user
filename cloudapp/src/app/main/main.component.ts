@@ -19,8 +19,6 @@ import { ConfigurationComponent } from '../configuration/configuration.component
 import { CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
 import { CloudAppConfigService } from '@exlibris/exl-cloudapp-angular-lib';
 
-
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -37,7 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
   deleteUser: string;
   interestedUsers: string[];
   settings: Settings;
-  configuration: Configuration;
+  config: Configuration;
   hasApiResult: boolean = false;
   loading = false;
   showApi = false;
@@ -63,11 +61,9 @@ export class MainComponent implements OnInit, OnDestroy {
     });
 
     // get configuration
-    this.configService.get().subscribe(configuration => {
-      this.configuration = configuration as Configuration;
+    this.configService.get().subscribe(config => {
+      this.config = config as Configuration;
     });
-
-
 
     this.eventsService.getInitData().subscribe(
       data => console.log('Page called by', data.user.firstName, data.user.lastName)
@@ -136,7 +132,7 @@ export class MainComponent implements OnInit, OnDestroy {
     console.log('User anonymize: ');
     for (let user of this.apiResult.interested_user) {
       console.log('Users Old: ' + user.primary_id);
-      user.primary_id = this.anonymousId;
+      user.primary_id = this.config.anonymousId;
     };
     for (let user of this.apiResult.interested_user) {
       console.log('Users New: ' + user.primary_id);
@@ -206,5 +202,4 @@ export class MainComponent implements OnInit, OnDestroy {
     }
     return undefined;
   }
-
 }

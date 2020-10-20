@@ -1,5 +1,5 @@
 export class Configuration {
-  anonymousId: string;
   showApi: boolean = false;
-  showValue: false;
+  showValue: boolean = false;
+  anonymousId: string = 'xxx';
 }
