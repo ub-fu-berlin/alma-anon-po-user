@@ -8,7 +8,7 @@ import { Observable, iif, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ErrorMessages } from '../static/error.component';
 import { FormGroupUtil } from '@exlibris/exl-cloudapp-angular-lib';
-
+import { TranslateService } from '@ngx-translate/core';
 import { Configuration } from '../models/configuration';
 
 @Component({
@@ -24,32 +24,34 @@ export class ConfigurationComponent implements OnInit {
     private appService: AppService,
     private fb: FormBuilder,
     private configService: CloudAppConfigService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private eventsService: CloudAppEventsService,
   ) { }
 
   ngOnInit() {
     this.appService.setTitle('Configuration');
     //this.configService.remove().subscribe( () => console.log('config removed') );
-    this.configService.getAsFormGroup().subscribe( config => {
-      this.form = Object.keys(config.value).length==0 ?
+    this.configService.getAsFormGroup().subscribe(config => {
+      this.form = Object.keys(config.value).length == 0 ?
         FormGroupUtil.toFormGroup(new Configuration()) :
         config;
     });
   }
 
   delete() {
-    this.configService.remove().subscribe( () => console.log('removed') );
+    this.configService.remove().subscribe(() => console.log('removed'));
   }
 
   save() {
     this.saving = true;
     this.configService.set(this.form.value).subscribe(
       () => {
-        this.toastr.success('Configuration successfully saved.');
+        this.toastr.success(this.translate.instant('Configuration successfully saved'));
         this.form.markAsPristine();
       },
       err => this.toastr.error(err.message),
-      ()  => this.saving = false
+      () => this.saving = false
     );
   }
 }
@@ -58,27 +60,42 @@ export class ConfigurationComponent implements OnInit {
   providedIn: 'root',
 })
 export class ConfigurationGuard implements CanActivate {
-  constructor (
+  primaryId: string;
+
+  constructor(
     private eventsService: CloudAppEventsService,
     private restService: CloudAppRestService,
     private router: Router
-  ) {}
+  ) { }
+
+  // checkUser() {
+  //   this.eventsService.getInitData().subscribe(
+  //     data => {
+  //       this.primaryId = data.user.primaryId;
+  //     }
+  //   );
+  //   if (this.primaryId != 'admin') {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   canActivate(): Observable<boolean> {
     return this.eventsService.getInitData().pipe(
       /* Until primaryId is available: */
       switchMap(data => iif(() =>
-        data.user.primaryId==null,
+        data.user.primaryId == null,
         this.restService.call(`/users?q=${query(data)}`).pipe(
-          map( resp => resp.user[0].primary_id )
+          map(resp => resp.user[0].primary_id)
         ),
         of(data.user.primaryId)
       )),
-      switchMap( primaryId => this.restService.call(`/users/${primaryId}`)),
-      map( user => {
-        if (!user.user_role.some(role=>role.role_type.value=='221')) {
+      switchMap(primaryId => this.restService.call(`/users/${primaryId}`)),
+      map(user => {
+        /* check if user has role '221' */
+        if (!user.user_role.some(role => role.role_type.value == '221')) {
           this.router.navigate(['/error'],
-            { queryParams: { error: ErrorMessages.NO_ACCESS }});
+            { queryParams: { error: ErrorMessages.NO_ACCESS } });
           return false;
         }
         return true;

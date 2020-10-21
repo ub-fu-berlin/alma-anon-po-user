@@ -1,38 +1,39 @@
 <div class="cloudapp-actions">
-  <button mat-flat-button color="secondary" [routerLink]="['/']">
-    <mat-icon>arrow_back</mat-icon>
-    {{'Back'}}
+  <button mat-flat-button class="fa fa-home" color="secondary" [routerLink]="['/']">
+    <mat-icon>home</mat-icon>
   </button>
 </div>
 
 <section class="configuration-section">
-  <h2>Configuration</h2>
+  <h1>&nbsp;{{ 'Configuration' | translate }}</h1>
 </section>
 
 <div class="loading-shade" *ngIf="saving">
   <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>
 
-<div *ngIf="form">
-  <form [formGroup]="form">
-    <section class="configuration-section">
-      <mat-checkbox labelPosition="before" formControlName="showApi">Show API Result</mat-checkbox>
-      &nbsp;
-      <mat-checkbox labelPosition="before" formControlName="showValue">Show Configuration</mat-checkbox>
-    </section>
+<section>
+  <div *ngIf="form">
+    <form [formGroup]="form">
+      <section class="configuration-section">
+        <mat-checkbox labelPosition="before" formControlName="showApi">{{ 'Show API Result' | translate }}</mat-checkbox>
+        &nbsp;
+        <mat-checkbox labelPosition="before" formControlName="showValue">{{ 'Show Configuration' | translate }}</mat-checkbox>
+      </section>
 
-    <br>
-    <section class="configuration-section">
-      <label class="example-margin">Anonymous Primary Id:</label>&nbsp;
-      <input matInput formControlName="anonymousId">
       <br>
-    </section>
-  </form>
-  <br>
-  <div buttons>
-    <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">Save</button>
+      <section class="configuration-section">
+        <label class="example-margin">{{ 'Anonymous Primary Id' | translate }}</label>&nbsp;
+        <input matInput formControlName="anonymousId">
+        <br>
+      </section>
+    </form>
+    <br>
+    <div buttons>
+      <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">{{ 'Save' | translate }}</button>
+    </div>
+    <br>
+    <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
+    <pre>{{ form.languge | json }}</pre>
   </div>
-  <br>
-  <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
-  <pre>{{ form.languge | json }}</pre>
-</div>
+</section>

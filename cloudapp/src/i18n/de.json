@@ -1,0 +1,22 @@
+{
+	"API Result": "API Resultat",
+	"Anonymize User": "Benutzer anonymisieren",
+	"Anonymous Primary Id:": "",
+	"Configuration": "Konfiguration",
+	"Delete User": "Benutzer löschen",
+	"English": "Englisch",
+	"German": "Deutsch",
+	"Language:": "Sprache",
+	"Save": "Speichern",
+	"Settings": "Einstellungen",
+	"Show API Result": "API-Resultat anzeigen",
+	"Show Configuration": "Konfiguration anzeigen",
+	"Show Settings": "Einstellungen anzeigen",
+	"Back": "Zurück",
+	"Configuration successfully saved": "Konfiguration erfolgreich gespeichert",
+	"Settings successfully saved": "Einstellungen erfolgreich gespeichert",
+	"Language" : "Sprache",
+	"Users": "Benutzer",
+	"PO line number": "Bestellposten-Nummer",
+	"Help": "Hilfe"
+}

@@ -5,6 +5,7 @@ import { CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
 import { FormGroupUtil } from '@exlibris/exl-cloudapp-angular-lib';
 import { ToastrService } from 'ngx-toastr';
 import { Settings } from '../models/settings';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,8 @@ export class SettingsComponent implements OnInit {
   constructor(
     private appService: AppService,
     private settingsService: CloudAppSettingsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -33,9 +35,12 @@ export class SettingsComponent implements OnInit {
 
   save() {
     this.saving = true;
+    // use local store for language??
+    this.translate.use(this.form.value.language);
+    //this.settingsService.get().
     this.settingsService.set(this.form.value).subscribe(
       response => {
-        this.toastr.success('Settings successfully saved.');
+        this.toastr.success(this.translate.instant('Settings successfully saved'));
         this.form.markAsPristine();
       },
       err => this.toastr.error(err.message),

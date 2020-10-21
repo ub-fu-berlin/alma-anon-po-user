@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
-
+import { HelpComponent } from './help/help.component';
 
 export function getToastrModule() {
   return ToastrModule.forRoot({
@@ -25,7 +25,8 @@ export function getToastrModule() {
     AppComponent,
     MainComponent,
     SettingsComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    HelpComponent
   ],
   imports: [
     MaterialModule,

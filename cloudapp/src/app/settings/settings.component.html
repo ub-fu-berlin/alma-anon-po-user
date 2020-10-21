@@ -1,41 +1,39 @@
-
 <div class="cloudapp-actions">
   <button mat-flat-button color="secondary" [routerLink]="['/']">
-    <mat-icon>arrow_back</mat-icon>
-    {{'Back'}}
+    <mat-icon>home</mat-icon>
   </button>
 </div>
 
 <section class="settings-section">
-  <h2>Settings</h2>
+  <h1>&nbsp;{{ 'Settings' | translate }}</h1>
 </section>
 
 <div class="loading-shade" *ngIf="saving">
   <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
 </div>
 
-<div *ngIf="form">
-  <form [formGroup]="form">
-    <section class="settings-section">
-      <mat-checkbox labelPosition="before" formControlName="showValue">Show Settings</mat-checkbox>
-    </section>
+<section>
+  <div *ngIf="form">
+    <form [formGroup]="form">
+      <section class="settings-section">
+        <mat-checkbox labelPosition="before" formControlName="showValue">{{ 'Show Settings' | translate }}</mat-checkbox>
+      </section>
+      <br>
+      <section class="settings-section">
+        <label class="example-margin">{{ 'Language' | translate }}:</label>&nbsp;
+        <mat-radio-group formControlName="language">
+          <mat-radio-button class="settings-control" value="en">{{ 'English' | translate }}</mat-radio-button>&nbsp;
+          <mat-radio-button class="settings-control" value="de">{{ 'German' | translate }}</mat-radio-button>&nbsp;
+        </mat-radio-group>
+      </section>
+      <br>
+    </form>
 
+    <div buttons>
+      <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">{{ 'Save' | translate }}</button>
+      <br>
+    </div>
     <br>
-    <section class="settings-section">
-      <label class="example-margin">Language:</label>&nbsp;
-      <mat-radio-group formControlName="language">
-        <mat-radio-button class="settings-control" value="eng">English</mat-radio-button>&nbsp;
-        <mat-radio-button class="settings-control" value="ger">German</mat-radio-button>&nbsp;
-      </mat-radio-group>
-    </section>
-    <br>
-  </form>
-
-  <div buttons>
-    <button mat-flat-button type="button" color="primary" (click)="save()" [disabled]="!(form?.dirty)">Save</button>
-    <br>
+    <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
   </div>
-  <br>
-  <pre *ngIf="form.get('showValue').value">{{ form.value | json }}</pre>
-  <pre>{{ form.languge | json }}</pre>
-</div>
+</section>

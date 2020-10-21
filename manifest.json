@@ -5,6 +5,11 @@
    "subtitle": "Anonymize interested users in PO-line",
    "pages": {
       "settings": "/#/settings",
-      "config": "/#/configuration"
+      "config": "/#/configuration",
+      "help": "/#/help"
+   },
+   "icon": {
+      "type": "font",
+      "value": "fa fa-user-secret"
    }
 }

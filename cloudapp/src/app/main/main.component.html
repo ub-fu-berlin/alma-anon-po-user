@@ -1,26 +1,26 @@
-<div *ngIf="config.showApi == true">
 <section>
-  <mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>API Result</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <textarea #apiResultArea [value]="apiResult | json"></textarea>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="update(apiResultArea.value)" [disabled]="!hasApiResult || loading">Update</button>
-    </mat-card-actions>
-  </mat-card>
-</section>
+<div *ngIf="config.showApi == true">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'API Result' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <textarea #apiResultArea [value]="apiResult | json"></textarea>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="update(apiResultArea.value)" [disabled]="!hasApiResult || loading">{{ 'Update' | translate }}</button>
+      </mat-card-actions>
+    </mat-card>
 </div>
+</section>
 
 <section>
   <mat-card class="example-card">
     <mat-card-header>
-      <mat-card-title>Ordered Item {{ number }}</mat-card-title>
+      <mat-card-title>{{ 'PO line number' | translate }}: {{ number }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <b>Users:</b>
+      <b>{{ 'Users' | translate }}:</b>
       <ul>
         <li *ngFor="let user of interestedUsers">
           {{ user }}
@@ -28,8 +28,8 @@
       </ul>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="blue" (click)="anonUser()">Anonymize User</button>
-      <button mat-raised-button color="primary" (click)="delUser()">Delete User</button>
+      <button mat-raised-button color="blue" (click)="anonUser()">{{ 'Anonymize User' | translate }}</button>
+      <button mat-raised-button color="primary" (click)="delUser()">{{ 'Delete User' | translate }}</button>
       <!--button mat-raised-button
               matTooltip="Tooltip ..."
               matTooltipPosition="before">
